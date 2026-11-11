@@ -3,6 +3,7 @@ ipython
 joblib
 jupyterlab
 matplotlib
+mlflow
 notebook
 numpy
 pandas

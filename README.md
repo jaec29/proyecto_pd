@@ -24,8 +24,18 @@ Ejecuta los notebooks en orden. Los modelos (`models/*.joblib`) y los datos proc
 
 1. `1.0-jec-analisis-exploratorio`: análisis exploratorio y selección de features (genera `pipeline_config.yaml`).
 2. `2.0-jec-preprocesamiento-modelo`: pipeline de ingeniería de características.
-3. `3.0-jec-entrenamiento-modelos`: torneo de modelos con validación cruzada, reentrenamiento del ganador y exportación de resultados a `reports/model_results.json`.
-4. `4.0-jec-inferencia`: predicciones sobre `test.csv` y pipeline de inferencia.
+3. `3.0-jec-entrenamiento-modelos`: torneo de modelos con validación cruzada, reentrenamiento del ganador, exportación de resultados a `reports/model_results.json` y registro en MLflow (champion y challengers).
+4. `4.0-jec-inferencia`: predicciones sobre `test.csv` con el champion del Model Registry y pipeline de inferencia.
+
+## MLflow
+
+El notebook 3 registra cada torneo en el experimento `house-pricing-saleprice` (un run padre y un run por modelo) y publica los tres mejores modelos en el Model Registry con los aliases `champion-<modelo>`, `challenger-1-<modelo>` y `challenger-2-<modelo>`. El backend es local (`mlflow.db` y `mlruns/`, fuera del control de versiones). Para explorarlo, en la raíz del proyecto:
+
+```
+mlflow ui --backend-store-uri sqlite:///mlflow.db
+```
+
+y abre http://127.0.0.1:5000.
 
 Para generar predicciones desde la terminal, después de correr los notebooks 3 y 4:
 
